@@ -1,0 +1,37 @@
+.dash {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100dvh;
+  background: var(--ocean-bg);
+}
+.sidenav {
+  border-right: 1px solid var(--ocean-border);
+  background: var(--ocean-surface);
+  padding: .75rem;
+}
+.sidenav.collapsed { width: 64px; }
+.collapse-btn {
+  all: unset;
+  cursor: pointer;
+  display: inline-block;
+  padding: .375rem .5rem;
+  border-radius: var(--radius-md);
+  color: var(--ocean-text);
+}
+.sidenav nav {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  margin-top: .5rem;
+}
+.sidenav a {
+  padding: .5rem .625rem;
+  border-radius: var(--radius-md);
+  color: var(--ocean-text);
+  text-decoration: none;
+}
+.sidenav a.active {
+  background: color-mix(in oklab, var(--ocean-primary) 12%, transparent);
+  color: var(--ocean-primary);
+}
+.main { padding: 1rem; }

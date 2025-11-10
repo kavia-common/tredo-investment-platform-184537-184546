@@ -1,0 +1,23 @@
+.admin-top {
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  background: var(--ocean-surface);
+  border-bottom: 1px solid var(--ocean-border);
+}
+.brand { font-weight: 700; color: var(--ocean-primary); }
+.nav a {
+  text-decoration: none;
+  margin-left: .75rem;
+  color: var(--ocean-text);
+}
+.nav a.active { color: var(--ocean-primary); }
+.admin-content {
+  min-height: calc(100dvh - 56px);
+  padding: 1rem;
+  background: var(--ocean-bg);
+}

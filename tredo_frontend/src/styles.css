@@ -1,12 +1,40 @@
-/* Global styles for minimalistic design */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Ocean Professional Design Tokens */
+:root {
+  --ocean-primary: #2563EB;
+  --ocean-secondary: #F59E0B;
+  --ocean-success: #10B981;
+  --ocean-error: #EF4444;
+
+  --ocean-bg: #f9fafb;
+  --ocean-surface: #ffffff;
+  --ocean-text: #111827;
+  --ocean-muted: #6B7280;
+  --ocean-border: #E5E7EB;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 8px 24px rgba(0,0,0,.08);
+
+  --ocean-bg-gradient: linear-gradient(180deg, color-mix(in oklab, var(--ocean-primary) 8%, #ffffff) 0%, var(--ocean-bg) 100%);
 }
 
-html, body {
-  height: 100%;
-  background-color: #ffffff;
+/* Utilities */
+.rounded { border-radius: var(--radius-md); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.text-muted { color: var(--ocean-muted); }
+.btn { cursor: pointer; }
+
+/* Base Resets */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: var(--ocean-bg);
+  color: var(--ocean-text);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

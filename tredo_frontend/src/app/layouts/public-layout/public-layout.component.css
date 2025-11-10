@@ -1,0 +1,46 @@
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: .875rem 1rem;
+  background: var(--ocean-surface);
+  border-bottom: 1px solid var(--ocean-border);
+}
+.brand {
+  font-weight: 700;
+  color: var(--ocean-primary);
+  text-decoration: none;
+}
+.nav {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+}
+.nav a {
+  text-decoration: none;
+  color: var(--ocean-text);
+  padding: .375rem .5rem;
+  border-radius: var(--radius-md);
+}
+.nav a.active { color: var(--ocean-primary); }
+.btn {
+  background: var(--ocean-primary);
+  color: white !important;
+  padding: .5rem .75rem;
+  border-radius: var(--radius-md);
+}
+.content {
+  min-height: calc(100dvh - 120px);
+  padding: 1rem;
+  background: var(--ocean-bg-gradient);
+}
+.footer {
+  padding: 1rem;
+  text-align: center;
+  color: var(--ocean-muted);
+  background: var(--ocean-surface);
+  border-top: 1px solid var(--ocean-border);
+}

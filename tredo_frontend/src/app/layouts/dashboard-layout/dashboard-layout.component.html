@@ -1,0 +1,13 @@
+<div class="dash">
+  <aside class="sidenav" [class.collapsed]="collapsed">
+    <button class="collapse-btn" (click)="toggle()" aria-label="Toggle menu">☰</button>
+    <nav>
+      <a routerLink="/subscriber" routerLinkActive="active">Home</a>
+      <a routerLink="/explore">Explore</a>
+      <a routerLink="/pricing">Pricing</a>
+    </nav>
+  </aside>
+  <section class="main">
+    <router-outlet />
+  </section>
+</div>
