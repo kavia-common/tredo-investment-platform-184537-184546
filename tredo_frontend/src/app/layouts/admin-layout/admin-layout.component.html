@@ -1,10 +1,4 @@
-<header class="admin-top">
-  <div class="brand">Tredo Admin</div>
-  <nav class="nav">
-    <a routerLink="/admin" routerLinkActive="active">Dashboard</a>
-    <a routerLink="/explore">Explore</a>
-  </nav>
-</header>
+<app-navbar [links]="links" brand="Tredo Admin" [sticky]="true"></app-navbar>
 <section class="admin-content">
   <router-outlet />
 </section>

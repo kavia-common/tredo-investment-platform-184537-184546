@@ -1,9 +1,15 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CardComponent } from '../../shared';
 
 @Component({
   standalone: true,
   selector: 'app-about',
-  template: `<section class="card"><h2>About</h2><p>Tredo connects analysts with subscribers.</p></section>`,
-  styles: [`.card{background:var(--ocean-surface);border:1px solid var(--ocean-border);border-radius:var(--radius-lg);padding:1rem;box-shadow:var(--shadow-sm);}`]
+  imports: [CardComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <app-card title="About Tredo">
+      <p>Tredo connects SEBI-licensed analysts with subscribers via verified folios and trade recommendations.</p>
+    </app-card>
+  `,
 })
 export class AboutComponent {}

@@ -1,14 +1,20 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from '../../shared';
 
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminLayoutComponent {
   // PUBLIC_INTERFACE
   /** Admin layout with topbar and content area. */
+  links = [
+    { label: 'Dashboard', path: '/admin' },
+    { label: 'Explore', path: '/explore' },
+  ];
 }

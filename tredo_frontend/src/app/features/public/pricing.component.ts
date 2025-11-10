@@ -1,9 +1,30 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CardComponent, ButtonComponent } from '../../shared';
 
 @Component({
   standalone: true,
   selector: 'app-pricing',
-  template: `<section class="card"><h2>Pricing</h2><p>Plans for subscribers and analysts.</p></section>`,
-  styles: [`.card{background:var(--ocean-surface);border:1px solid var(--ocean-border);border-radius:var(--radius-lg);padding:1rem;box-shadow:var(--shadow-sm);}`]
+  imports: [CardComponent, ButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="grid">
+      <app-card title="Starter">
+        <p>For new investors exploring folios.</p>
+        <div class="mt"><app-button variant="primary">Choose Starter</app-button></div>
+      </app-card>
+      <app-card title="Pro">
+        <p>For active subscribers following multiple analysts.</p>
+        <div class="mt"><app-button variant="secondary">Choose Pro</app-button></div>
+      </app-card>
+    </div>
+  `,
+  styles: [`
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .mt { margin-top: .75rem; }
+  `],
 })
 export class PricingComponent {}
