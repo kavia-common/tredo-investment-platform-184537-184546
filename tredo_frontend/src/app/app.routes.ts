@@ -67,6 +67,11 @@ export const routes: Routes = [
     data: { roles: ['admin'] },
     children: [
       { path: '', pathMatch: 'full', loadComponent: () => import('./features/admin/admin-dashboard.component').then(m => m.AdminDashboardComponent) },
+      { path: 'overview', loadComponent: () => import('./features/admin/admin-overview.component').then(m => m.AdminOverviewComponent) },
+      { path: 'users', loadComponent: () => import('./features/admin/admin-users.component').then(m => m.AdminUsersComponent) },
+      { path: 'approvals', loadComponent: () => import('./features/admin/admin-approvals.component').then(m => m.AdminApprovalsComponent) },
+      { path: 'folios', loadComponent: () => import('./features/admin/admin-folios-registry.component').then(m => m.AdminFoliosRegistryComponent) },
+      { path: 'settings', loadComponent: () => import('./features/admin/admin-settings.component').then(m => m.AdminSettingsComponent) },
     ],
   },
   { path: '**', redirectTo: '' },

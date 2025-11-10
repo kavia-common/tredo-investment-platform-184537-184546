@@ -15,6 +15,10 @@ export class AdminLayoutComponent {
   /** Admin layout with topbar and content area. */
   links = [
     { label: 'Dashboard', path: '/admin' },
-    { label: 'Explore', path: '/explore' },
+    { label: 'Overview', path: '/admin/overview' },
+    { label: 'Users', path: '/admin/users' },
+    { label: 'Approvals', path: '/admin/approvals' },
+    { label: 'Folios', path: '/admin/folios' },
+    { label: 'Settings', path: '/admin/settings' },
   ];
 }
