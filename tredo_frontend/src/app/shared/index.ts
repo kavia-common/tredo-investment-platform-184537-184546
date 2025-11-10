@@ -6,6 +6,8 @@ export * from './components/card.component';
 export * from './components/table.component';
 export * from './components/modal.component';
 export * from './components/chart-placeholder.component';
+export * from './components/error-banner.component';
+export * from './components/empty-state.component';
 
 export * from './pipes/truncate.pipe';
 export * from './pipes/currency-format.pipe';

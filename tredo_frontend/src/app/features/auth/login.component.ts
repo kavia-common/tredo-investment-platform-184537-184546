@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { AutofocusDirective, ButtonComponent } from '../../shared';
+import { AutofocusDirective, ButtonComponent, ErrorBannerComponent } from '../../shared';
 import { getFrontendUrl } from '../../shared/utils/env';
 
 /**
@@ -12,7 +12,7 @@ import { getFrontendUrl } from '../../shared/utils/env';
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, ButtonComponent, AutofocusDirective],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, ButtonComponent, AutofocusDirective, ErrorBannerComponent],
   template: `
     <header style="margin-bottom:.75rem">
       <h2 style="margin-bottom:.25rem">Welcome back</h2>
@@ -64,9 +64,7 @@ import { getFrontendUrl } from '../../shared/utils/env';
       <a routerLink="/register-analyst">Apply as an analyst</a>
     </footer>
 
-    <div *ngIf="error" class="alert">
-      {{ error }}
-    </div>
+    <app-error-banner [message]="error"></app-error-banner>
   `,
   styles: [`
     .field { display:flex; flex-direction:column; gap:.25rem }

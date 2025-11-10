@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent, ButtonComponent, TableComponent } from '../../shared';
+import { CardComponent, ButtonComponent, TableComponent, EmptyStateComponent, ErrorBannerComponent } from '../../shared';
 import { SubscriptionService } from '../../core/services/subscription.service';
 import { FolioService } from '../../core/services/folio.service';
 import { Subscription, Folio } from '../../core';
@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   standalone: true,
   selector: 'app-my-subscriptions',
-  imports: [CommonModule, RouterLink, CardComponent, ButtonComponent, TableComponent],
+  imports: [CommonModule, RouterLink, CardComponent, ButtonComponent, TableComponent, EmptyStateComponent, ErrorBannerComponent],
   template: `
     <header style="display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem">
       <h2>My Subscriptions</h2>
@@ -30,20 +30,31 @@ import { RouterLink } from '@angular/router';
         </div>
       </ng-template>
 
-      <app-table
-        [data]="rows"
-        [columns]="[
-          { key: 'folioTitle', header: 'Folio', type: 'template', template: folioTpl },
-          { key: 'status', header: 'Status' },
-          { key: 'price', header: 'Price (₹)' },
-          { key: 'currentPeriodEnd', header: 'Renews' }
-        ]"
-        (sort)="onSort($event)">
-      </app-table>
+      <ng-container *ngIf="(rows && rows.length) > 0; else empty">
+        <app-table
+          [data]="rows"
+          [columns]="[
+            { key: 'folioTitle', header: 'Folio', type: 'template', template: folioTpl },
+            { key: 'status', header: 'Status' },
+            { key: 'price', header: 'Price (₹)' },
+            { key: 'currentPeriodEnd', header: 'Renews' }
+          ]"
+          (sort)="onSort($event)">
+        </app-table>
 
-      <div card-footer style="display:flex; gap:.5rem; align-items:center; justify-content:flex-end">
-        <app-button variant="ghost" (clicked)="refresh()">Refresh</app-button>
-      </div>
+        <div card-footer style="display:flex; gap:.5rem; align-items:center; justify-content:flex-end">
+          <app-button variant="ghost" (clicked)="refresh()">Refresh</app-button>
+        </div>
+      </ng-container>
+
+      <ng-template #empty>
+        <app-empty-state
+          title="No subscriptions"
+          description="You don't have any subscriptions yet. Explore available folios and subscribe to get started."
+          [actionLabel]="'Explore Folios'"
+          (action)="goExplore()">
+        </app-empty-state>
+      </ng-template>
     </app-card>
 
     <section style="margin-top:.75rem; display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:.75rem">
@@ -77,6 +88,13 @@ export class MySubscriptionsComponent {
   onSort(key: string) {
     this.sortKey = String(key);
     this.sort();
+  }
+
+  goExplore(): void {
+    try {
+      const g = globalThis as unknown as { location?: { href: string } };
+      if (g && g.location) g.location.href = '/explore';
+    } catch { /* no-op */ }
   }
 
   private load(): void {

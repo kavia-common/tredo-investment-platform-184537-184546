@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { CardComponent, ChartPlaceholderComponent, ButtonComponent, TableComponent, CurrencyFormatPipe } from '../../shared';
+import { CardComponent, ChartPlaceholderComponent, ButtonComponent, TableComponent, EmptyStateComponent } from '../../shared';
 import { SubscriptionService } from '../../core/services/subscription.service';
 import { FolioService } from '../../core/services/folio.service';
 import { Subscription, Folio } from '../../core';
@@ -13,7 +13,7 @@ import { Subscription, Folio } from '../../core';
 @Component({
   standalone: true,
   selector: 'app-subscriber-dashboard',
-  imports: [CommonModule, RouterLink, CardComponent, ChartPlaceholderComponent, ButtonComponent, TableComponent, CurrencyFormatPipe],
+  imports: [CommonModule, RouterLink, CardComponent, ChartPlaceholderComponent, ButtonComponent, TableComponent, EmptyStateComponent],
   template: `
     <header style="display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem">
       <h2>Subscriber Dashboard</h2>
@@ -45,10 +45,20 @@ import { Subscription, Folio } from '../../core';
 
     <section style="display:grid; grid-template-columns: 1.2fr .8fr; gap:.75rem">
       <app-card title="Your Subscriptions">
-        <app-table [data]="subs" [columns]="subCols"></app-table>
-        <div card-footer>
-          <a routerLink="/subscriber/my-subscriptions" class="text-muted">Manage subscriptions →</a>
-        </div>
+        <ng-container *ngIf="(subs && subs.length) > 0; else noSubs">
+          <app-table [data]="subs" [columns]="subCols"></app-table>
+          <div card-footer>
+            <a routerLink="/subscriber/my-subscriptions" class="text-muted">Manage subscriptions →</a>
+          </div>
+        </ng-container>
+        <ng-template #noSubs>
+          <app-empty-state
+            title="No active subscriptions"
+            description="Explore analyst folios and subscribe to track performance in your dashboard."
+            [actionLabel]="'Explore Folios'"
+            (action)="goExplore()">
+          </app-empty-state>
+        </ng-template>
       </app-card>
 
       <app-card title="Portfolio Performance">
@@ -76,6 +86,13 @@ export class SubscriberDashboardComponent {
 
   ngOnInit(): void {
     this.load();
+  }
+
+  goExplore(): void {
+    try {
+      const g = globalThis as unknown as { location?: { href: string } };
+      if (g && g.location) g.location.href = '/explore';
+    } catch { /* no-op */ }
   }
 
   private load(): void {

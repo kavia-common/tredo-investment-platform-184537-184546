@@ -74,5 +74,5 @@ export const routes: Routes = [
       { path: 'settings', loadComponent: () => import('./features/admin/admin-settings.component').then(m => m.AdminSettingsComponent) },
     ],
   },
-  { path: '**', redirectTo: '' },
+  { path: '**', loadComponent: () => import('./features/public/not-found.component').then(m => m.NotFoundComponent) },
 ];

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
         <a *ngFor="let link of links"
            class="nav-link"
            [routerLink]="link.path"
+           (click)="onLinkClick(link); $event"
            routerLinkActive="active">{{ link.label }}</a>
         <ng-content select="[nav-actions]"></ng-content>
       </nav>
@@ -67,4 +68,11 @@ export class NavbarComponent {
   // PUBLIC_INTERFACE
   /** Whether the navbar is sticky */
   @Input() sticky = true;
+  // PUBLIC_INTERFACE
+  /** Emits when a link is clicked (e.g. to handle logout) */
+  @Output() linkClick = new EventEmitter<{ label: string; path: string | any[] }>();
+
+  onLinkClick(link: { label: string; path: string | any[] }) {
+    this.linkClick.emit(link);
+  }
 }

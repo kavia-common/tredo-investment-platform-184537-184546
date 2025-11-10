@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent, TableComponent, ButtonComponent, ModalComponent } from '../../shared';
+import { CardComponent, TableComponent, ButtonComponent, ModalComponent, EmptyStateComponent, ErrorBannerComponent } from '../../shared';
 import { AdminService } from '../../core/services/admin.service';
 import { User } from '../../core';
 
@@ -11,7 +11,7 @@ import { User } from '../../core';
 @Component({
   standalone: true,
   selector: 'app-admin-users',
-  imports: [CommonModule, CardComponent, TableComponent, ButtonComponent, ModalComponent],
+  imports: [CommonModule, CardComponent, TableComponent, ButtonComponent, ModalComponent, EmptyStateComponent, ErrorBannerComponent],
   template: `
     <header style="display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem">
       <h2>Users</h2>
@@ -23,21 +23,35 @@ import { User } from '../../core';
         <app-button variant="ghost" (clicked)="openUser(row)">View</app-button>
       </ng-template>
 
-      <app-table
-        [data]="users"
-        [columns]="[
-          { key: 'name', header: 'Name' },
-          { key: 'email', header: 'Email' },
-          { key: 'role', header: 'Role' },
-          { key: 'actions', header: 'Actions', type: 'template', template: actionsTpl }
-        ]"
-        (sort)="onSort($event)">
-      </app-table>
+      <ng-container *ngIf="(users && users.length) > 0; else emptyBlock">
+        <app-table
+          [data]="users"
+          [columns]="[
+            { key: 'name', header: 'Name' },
+            { key: 'email', header: 'Email' },
+            { key: 'role', header: 'Role' },
+            { key: 'actions', header: 'Actions', type: 'template', template: actionsTpl }
+          ]"
+          (sort)="onSort($event)">
+        </app-table>
 
-      <div card-footer>
-        <span class="text-muted">Total {{ users?.length || 0 }} users</span>
-      </div>
+        <div card-footer>
+          <span class="text-muted">Total {{ users?.length || 0 }} users</span>
+        </div>
+      </ng-container>
+
+      <ng-template #emptyBlock>
+        <app-empty-state
+          title="No users yet"
+          description="Once users sign up, they will appear here. You can invite users or check back later."
+          [actionLabel]="'Refresh'"
+          actionVariant="ghost"
+          (action)="load()">
+        </app-empty-state>
+      </ng-template>
     </app-card>
+
+    <app-error-banner [message]="error"></app-error-banner>
 
     <app-modal [open]="modalOpen" title="User Details" (close)="modalOpen=false">
       <div *ngIf="selectedUser; else none">
@@ -82,10 +96,17 @@ export class AdminUsersComponent {
     this.modalOpen = true;
   }
 
-  private load() {
-    this.admin.listUsers().subscribe((rows) => {
-      this.users = rows;
-      this.sort();
+  error: string | null = null;
+
+  load() {
+    this.admin.listUsers().subscribe({
+      next: (rows) => {
+        this.users = rows;
+        this.sort();
+      },
+      error: (e) => {
+        this.error = e?.error?.message || 'Unable to load users.';
+      }
     });
   }
 

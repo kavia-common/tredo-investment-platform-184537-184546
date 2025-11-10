@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent, ButtonComponent, TableComponent } from '../../shared';
+import { CardComponent, ButtonComponent, TableComponent, ErrorBannerComponent } from '../../shared';
 import { SubscriptionService } from '../../core/services/subscription.service';
 import { Subscription } from '../../core';
 
@@ -11,7 +11,7 @@ import { Subscription } from '../../core';
 @Component({
   standalone: true,
   selector: 'app-billing',
-  imports: [CommonModule, CardComponent, ButtonComponent, TableComponent],
+  imports: [CommonModule, CardComponent, ButtonComponent, TableComponent, ErrorBannerComponent],
   template: `
     <header style="display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem">
       <h2>Billing</h2>
@@ -35,7 +35,7 @@ import { Subscription } from '../../core';
     </app-card>
 
     <div *ngIf="message" class="notice">{{ message }}</div>
-    <div *ngIf="error" class="alert">{{ error }}</div>
+    <app-error-banner [message]="error"></app-error-banner>
   `,
   styles: [`
     .alert {

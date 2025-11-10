@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { CardComponent, ButtonComponent, TableComponent, TruncatePipe } from '../../shared';
+import { CardComponent, ButtonComponent, TableComponent, TruncatePipe, EmptyStateComponent } from '../../shared';
 import { FolioService } from '../../core/services/folio.service';
 import { Folio } from '../../core';
 
@@ -12,7 +12,7 @@ import { Folio } from '../../core';
 @Component({
   standalone: true,
   selector: 'app-folios-list',
-  imports: [CommonModule, RouterLink, CardComponent, ButtonComponent, TableComponent, TruncatePipe],
+  imports: [CommonModule, RouterLink, CardComponent, ButtonComponent, TableComponent, TruncatePipe, EmptyStateComponent],
   template: `
     <header style="display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem">
       <h2>Your Folios</h2>
@@ -30,19 +30,30 @@ import { Folio } from '../../core';
         <div class="text-muted">{{ row.description | truncate:120:false }}</div>
       </ng-template>
 
-      <app-table
-        [data]="folios"
-        [columns]="[
-          { key: 'title', header: 'Folio', type: 'template', template: titleTpl },
-          { key: 'visibility', header: 'Visibility' },
-          { key: 'updatedAt', header: 'Updated' }
-        ]"
-        (sort)="onSort($event)">
-      </app-table>
+      <ng-container *ngIf="(folios && folios.length) > 0; else empty">
+        <app-table
+          [data]="folios"
+          [columns]="[
+            { key: 'title', header: 'Folio', type: 'template', template: titleTpl },
+            { key: 'visibility', header: 'Visibility' },
+            { key: 'updatedAt', header: 'Updated' }
+          ]"
+          (sort)="onSort($event)">
+        </app-table>
 
-      <div card-footer>
-        <span class="text-muted">Showing {{ (folios && folios.length) ? folios.length : 0 }} entries</span>
-      </div>
+        <div card-footer>
+          <span class="text-muted">Showing {{ (folios && folios.length) ? folios.length : 0 }} entries</span>
+        </div>
+      </ng-container>
+
+      <ng-template #empty>
+        <app-empty-state
+          title="No folios yet"
+          description="Create your first folio to start publishing recommendations."
+          [actionLabel]="'New Folio'"
+          (action)="goNew()">
+        </app-empty-state>
+      </ng-template>
     </app-card>
   `,
   styles: [``],
@@ -56,6 +67,18 @@ export class FoliosListComponent {
 
   ngOnInit(): void {
     this.load();
+  }
+
+  goNew(): void {
+    // SSR-safe navigation fallback
+    try {
+      const g = globalThis as unknown as { location?: { href: string } };
+      if (g && g.location) {
+        g.location.href = '/analyst/folios/new';
+      }
+    } catch {
+      // no-op on server
+    }
   }
 
   onSort(key: string) {
