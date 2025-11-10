@@ -41,6 +41,11 @@ export const routes: Routes = [
     data: { roles: ['analyst'] },
     children: [
       { path: '', pathMatch: 'full', loadComponent: () => import('./features/analyst/analyst-dashboard.component').then(m => m.AnalystDashboardComponent) },
+      { path: 'folios', loadComponent: () => import('./features/analyst/folios-list.component').then(m => m.FoliosListComponent) },
+      { path: 'folios/new', loadComponent: () => import('./features/analyst/folio-editor.component').then(m => m.FolioEditorComponent) },
+      { path: 'folios/:id', loadComponent: () => import('./features/analyst/folio-editor.component').then(m => m.FolioEditorComponent) },
+      { path: 'trades', loadComponent: () => import('./features/analyst/analyst-trades.component').then(m => m.AnalystTradesComponent) },
+      { path: 'analytics', loadComponent: () => import('./features/analyst/analyst-analytics.component').then(m => m.AnalystAnalyticsComponent) },
     ],
   },
   {

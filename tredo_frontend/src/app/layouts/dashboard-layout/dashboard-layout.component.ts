@@ -19,5 +19,11 @@ export class DashboardLayoutComponent {
     { label: 'Explore', path: '/explore' },
     { label: 'Pricing', path: '/pricing' },
   ];
+
+  /**
+   * When used for /analyst shell, the child routes will still render,
+   * and links can be overridden in future via @Input or route data.
+   * For now, we detect URL pattern at runtime is avoided to keep SSR-safe and simple.
+   */
   toggle() { this.collapsed = !this.collapsed; }
 }
