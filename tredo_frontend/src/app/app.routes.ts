@@ -55,6 +55,9 @@ export const routes: Routes = [
     data: { roles: ['subscriber'] },
     children: [
       { path: '', pathMatch: 'full', loadComponent: () => import('./features/subscriber/subscriber-dashboard.component').then(m => m.SubscriberDashboardComponent) },
+      { path: 'my-subscriptions', loadComponent: () => import('./features/subscriber/my-subscriptions.component').then(m => m.MySubscriptionsComponent) },
+      { path: 'folio-tracker', loadComponent: () => import('./features/subscriber/folio-tracker.component').then(m => m.FolioTrackerComponent) },
+      { path: 'billing', loadComponent: () => import('./features/subscriber/billing.component').then(m => m.BillingComponent) },
     ],
   },
   {

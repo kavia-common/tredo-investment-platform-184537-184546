@@ -16,8 +16,10 @@ export class DashboardLayoutComponent {
   collapsed = false;
   links = [
     { label: 'Home', path: '/subscriber' },
+    { label: 'My Subscriptions', path: '/subscriber/my-subscriptions' },
+    { label: 'Folio Tracker', path: '/subscriber/folio-tracker' },
+    { label: 'Billing', path: '/subscriber/billing' },
     { label: 'Explore', path: '/explore' },
-    { label: 'Pricing', path: '/pricing' },
   ];
 
   /**
