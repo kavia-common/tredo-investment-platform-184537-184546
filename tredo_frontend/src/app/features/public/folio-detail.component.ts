@@ -1,29 +1,31 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CardComponent, ButtonComponent, ChartPlaceholderComponent } from '../../shared';
+import { CommonModule } from '@angular/common';
+import { FolioService } from '../../core/services/folio.service';
 
 @Component({
   standalone: true,
   selector: 'app-folio-detail',
-  imports: [CardComponent, ButtonComponent, ChartPlaceholderComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule],
   template: `
-    <app-card [title]="'Folio #' + id">
-      <p class="text-muted">Overview and performance</p>
-      <div style="margin-top: .75rem;">
-        <app-chart-placeholder title="Cumulative returns" subtitle="Since inception"></app-chart-placeholder>
-      </div>
-      <div style="display:flex; gap:.5rem; margin-top: 1rem;">
-        <app-button variant="primary">Subscribe</app-button>
-        <app-button variant="ghost">Share</app-button>
-      </div>
-    </app-card>
+    <h2>Folio Detail</h2>
+    <ng-container *ngIf="folio; else loading">
+      <div><strong>{{ folio.title }}</strong></div>
+      <div class="text-muted">{{ folio.description }}</div>
+    </ng-container>
+    <ng-template #loading>Loading...</ng-template>
   `,
+  styles: [``],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FolioDetailComponent {
-  id: string | null = null;
-  constructor(private route: ActivatedRoute) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly service = inject(FolioService);
+
+  folio: any;
+
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.service.getById(id).subscribe((f) => (this.folio = f));
   }
 }

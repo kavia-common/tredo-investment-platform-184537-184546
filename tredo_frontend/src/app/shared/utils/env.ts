@@ -54,7 +54,7 @@ export function isMockMode(): boolean {
     const flagsRaw = readEnvVar('NG_APP_FEATURE_FLAGS') ?? (env.featureFlags || '');
     const flags = (flagsRaw || '')
       .split(',')
-      .map(f => f.trim().toLowerCase())
+      .map((f: string) => f.trim().toLowerCase())
       .filter(Boolean);
     return flags.includes('mock') || flags.includes('mock-mode');
   } catch {

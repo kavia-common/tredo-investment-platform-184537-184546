@@ -3,6 +3,8 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout.com
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { RoleGuard } from './core/guards/role.guard';
 
 /**
  * Application routing configuration
@@ -35,8 +37,8 @@ export const routes: Routes = [
   {
     path: 'analyst',
     component: DashboardLayoutComponent,
-    // placeholder guard provider hook; implement RoleGuard later
-    // canActivate: [RoleGuard], data: { roles: ['analyst'] },
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['analyst'] },
     children: [
       { path: '', pathMatch: 'full', loadComponent: () => import('./features/analyst/analyst-dashboard.component').then(m => m.AnalystDashboardComponent) },
     ],
@@ -44,7 +46,8 @@ export const routes: Routes = [
   {
     path: 'subscriber',
     component: DashboardLayoutComponent,
-    // canActivate: [RoleGuard], data: { roles: ['subscriber'] },
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['subscriber'] },
     children: [
       { path: '', pathMatch: 'full', loadComponent: () => import('./features/subscriber/subscriber-dashboard.component').then(m => m.SubscriberDashboardComponent) },
     ],
@@ -52,7 +55,8 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    // canActivate: [RoleGuard], data: { roles: ['admin'] },
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] },
     children: [
       { path: '', pathMatch: 'full', loadComponent: () => import('./features/admin/admin-dashboard.component').then(m => m.AdminDashboardComponent) },
     ],
