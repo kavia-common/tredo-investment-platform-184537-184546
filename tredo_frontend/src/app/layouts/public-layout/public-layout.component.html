@@ -1,15 +1,5 @@
-<header class="header">
-  <a class="brand" routerLink="/">Tredo</a>
-  <nav class="nav">
-    <a routerLink="/explore" routerLinkActive="active">Explore</a>
-    <a routerLink="/pricing" routerLinkActive="active">Pricing</a>
-    <a routerLink="/about" routerLinkActive="active">About</a>
-    <a class="btn" routerLink="/login">Sign in</a>
-  </nav>
-</header>
+<app-navbar [links]="links" brand="Tredo"></app-navbar>
 <section class="content">
   <router-outlet />
 </section>
-<footer class="footer">
-  <div>© {{ footerYear }} Tredo</div>
-</footer>
+<app-footer brand="Tredo" [year]="footerYear"></app-footer>
